@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unlock GTA V Mods | No Surveys, Just Mods</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #39ff14;
+            --bg: #0a0a0a;
+            --accent: #ff5e00;
+            --text: #eaeaea;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Orbitron', Arial, sans-serif;
+            /* Subtle gradient background */
+            background: linear-gradient(to bottom, #111, var(--bg), var(--bg));
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://wallpapercave.com/wp/wp2757874.jpg') center/cover no-repeat;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px var(--primary); }
+            50% { text-shadow: 0 0 20px var(--primary); }
+            100% { text-shadow: 0 0 10px var(--primary); }
+        }
+        header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+        .cta {
+            margin-top: 1rem;
+            background: var(--accent);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 0 0px transparent; /* Initial state for transition */
+        }
+        .cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent);
+            background-color: #ff8533; /* Slightly lighter orange on hover */
+        }
+        /* Added focus style for accessibility */
+        .cta:focus {
+             outline: 2px solid var(--primary);
+             outline-offset: 2px;
+             box-shadow: 0 0 15px var(--accent);
+        }
+        .countdown {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        section {
+            padding: 4rem 1rem;
+        }
+        .features {
+            text-align: center;
+        }
+        .features h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .feature:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 5px 15px rgba(57, 255, 20, 0.1); /* Subtle primary glow */
+        }
+        .feature h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .preview {
+            background: #111;
+            text-align: center;
+        }
+        .preview h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        #model-container {
+            width: 100%;
+            max-width: 700px; /* Increased max-width */
+            height: 400px; /* Increased height */
+            margin: 2rem auto 0;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            background-color: #222; /* Background for the viewer */
+        }
+        .model-status { /* Renamed for clarity */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34, 34, 34, 0.8); /* Slightly transparent background */
+            color: var(--text);
+            font-size: 1.1rem;
+            z-index: 10; /* Ensure it's above the canvas initially */
+            pointer-events: none; /* Allow clicks to go through to controls once loaded */
+        }
+        .testimonials {
+            background: #0f0f0f;
+            text-align: center;
+        }
+        .testimonials h2 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-style: italic;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+         .testimonial:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 5px 15px rgba(255, 94, 0, 0.1); /* Subtle accent glow */
+        }
+        .testimonial strong {
+            display: block;
+            margin-top: 1rem;
+            color: var(--accent);
+            font-style: normal;
+        }
+        footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #222;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: var(--primary);
+        }
+        .error-notice {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ff3333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .error-notice button {
+             margin-left: 10px;
+             background: white;
+             color: #333;
+             border: none;
+             padding: 2px 8px;
+             border-radius: 3px;
+             cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            header {
+                min-height: 500px;
+            }
+            section {
+                padding: 3rem 1rem;
+            }
+            #model-container {
+                height: 300px; /* Adjust height for smaller screens */
+            }
+            .features-grid, .testimonial-grid {
+                 grid-template-columns: 1fr; /* Stack on smaller screens */
+            }
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+</head>
+<body>
+    <div id="error-notice" class="error-notice">
+        Some features may not load properly. The page is still functional.
+        <button onclick="document.getElementById('error-notice').style.display='none'">OK</button>
+    </div>
+
+    <header>
+        <h1>GTA V Mods Unlocked</h1>
+        <p>Instant access to rare vehicles, unlimited cash, and custom features. No surveys. No B.S.</p>
+        <a href="https://your-ogads-locker-url.com" class="cta" target="_blank" id="main-cta">Get My Mods Now</a>
+        <div class="countdown" id="countdown">Offer expires in --</div>
+    </header>
+
+    <section class="features">
+        <h2>Why Download With Us?</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>🚀 Fast Delivery</h3>
+                <p>Mods install in under 60 seconds. No email required.</p>
+            </div>
+            <div class="feature">
+                <h3>🔓 100% Free</h3>
+                <p>Complete 1 offer and unlock full access instantly.</p>
+            </div>
+            <div class="feature">
+                <h3>💣 Insane Mods</h3>
+                <p>Rare vehicles, money hacks, invincibility & more.</p>
+            </div>
+            <div class="feature">
+                <h3>🌐 Global Access</h3>
+                <p>Works worldwide, any device. Mobile optimized.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="preview">
+        <h2>Preview Your Ride</h2>
+        <div id="model-container">
+            <div class="model-status" id="model-status-text">
+                <p>Loading 3D preview...</p>
+            </div>
+            </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Gamers Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial">
+                "This is legit! Got my cash and car mods instantly."
+                <strong>— Max P.</strong>
+            </div>
+            <div class="testimonial">
+                "I was skeptical but it actually worked. No survey spam."
+                <strong>— Alina R.</strong>
+            </div>
+            <div class="testimonial">
+                "GTA is way more fun with these mods! Highly recommend."
+                <strong>— Carlos D.</strong>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2025 GTA V Mods Unlocked — Not affiliated with Rockstar Games. |
+        <a href="#">Privacy</a> | <a href="#">Terms</a>
+    </footer>
+
+    <script>
+        // Error handling wrapper
+        function safeExecute(fn, errorHandler) {
+            try {
+                return fn();
+            } catch (e) {
+                console.error("Execution Error:", e);
+                if (errorHandler) {
+                    errorHandler(e);
+                } else {
+                     document.getElementById('error-notice').style.display = 'block';
+                }
+                return null;
+            }
+        }
+
+        // Countdown timer
+        safeExecute(function() {
+            function updateCountdown() {
+                const now = new Date();
+                const end = new Date();
+                // Set expiry for the end of the current day
+                end.setHours(23, 59, 59, 999);
+                const diff = end - now;
+
+                if (diff < 0) {
+                    document.getElementById('countdown').textContent = `Offer expired!`;
+                    return;
+                }
+
+                const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
+                const mins = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                const secs = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0'); // Added seconds
+
+                document.getElementById('countdown').textContent = `Offer expires in ${hours}h ${mins}m ${secs}s`;
+            }
+            updateCountdown(); // Initial call
+            setInterval(updateCountdown, 1000); // Update every second
+        });
+
+        // 3D Model Loader
+        safeExecute(function() {
+            const modelContainer = document.getElementById('model-container');
+            const statusTextElement = document.getElementById('model-status-text');
+            if (!modelContainer || !statusTextElement) {
+                 console.error("Model container or status element not found.");
+                 return;
+            }
+
+            // Check if Three.js and required components loaded
+            if (typeof THREE === 'undefined' || typeof THREE.OrbitControls === 'undefined' || typeof THREE.GLTFLoader === 'undefined') {
+                console.error('Three.js or required components failed to load.');
+                statusTextElement.innerHTML = '<p>Error: 3D Viewer components failed to load.</p>';
+                document.getElementById('error-notice').textContent += ' (3D Preview Error)';
+                document.getElementById('error-notice').style.display = 'block';
+                return;
+            }
+
+            // --- Three.js Scene Setup ---
+            let scene, camera, renderer, controls;
+
+            function init3D() {
+                const width = modelContainer.clientWidth;
+                const height = modelContainer.clientHeight;
+
+                // Scene
+                scene = new THREE.Scene();
+                // scene.background = new THREE.Color(0x222222); // Optional: set background color
+
+                // Camera
+                camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+                camera.position.set(10, 7, -35);
+
+                // Renderer
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(width, height);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                modelContainer.appendChild(renderer.domElement);
+
+                // Controls
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.screenSpacePanning = false;
+                controls.minDistance = 1;
+                controls.maxDistance = 20;
+                controls.autoRotate = false;
+
+                // --- ADJUST THESE VALUES TO CENTER THE ROTATION ---
+                // Start with a small adjustment and see the effect.
+                // X: Adjust left/right. Positive moves the rotation point right, negative left.
+                // Y: Adjust up/down. Positive moves the rotation point up, negative down.
+                // Z: Adjust forward/backward. Positive moves the rotation point backward, negative forward.
+                controls.target.set(20, 2, -25); // Initial guess, you'll likely need to change this
+
+                controls.update();
+
+                // Lighting
+                const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.8);
+                scene.add(hemisphereLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+                directionalLight.position.set(5, 5, 5);
+                scene.add(directionalLight);
+                 const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
+                directionalLight2.position.set(-5, 3, -5);
+                scene.add(directionalLight2);
+
+                // --- Load the GLTF/GLB Model ---
+                const loader = new THREE.GLTFLoader();
+                const modelPath = '3d_car.glb';
+
+                loader.load(
+                    modelPath,
+                    function (gltf) {
+                        console.log('Model loaded successfully:', gltf);
+                        const model = gltf.scene;
+
+                        model.scale.set(1, 1, 1);
+                        model.position.set(0, 0, 0);
+
+                        scene.add(model);
+
+                        statusTextElement.style.display = 'none';
+                        statusTextElement.parentElement.style.pointerEvents = 'auto';
+
+                        animate();
+                    },
+                    function (xhr) {
+                        const percentLoaded = Math.round((xhr.loaded / xhr.total) * 100);
+                        console.log(percentLoaded + '% loaded');
+                        statusTextElement.innerHTML = `<p>Loading 3D Preview... ${percentLoaded}%</p>`;
+                    },
+                    function (error) {
+                        console.error('An error happened during model loading:', error);
+                        statusTextElement.innerHTML = '<p>Error loading 3D model. Please try again later.</p>';
+                         document.getElementById('error-notice').textContent += ' (3D Model Load Failed)';
+                         document.getElementById('error-notice').style.display = 'block';
+                    }
+                );
+            }
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+
+            // Handle window resize
+            function onWindowResize() {
+                if (!camera || !renderer) return;
+                const width = modelContainer.clientWidth;
+                const height = modelContainer.clientHeight;
+
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            }
+            window.addEventListener('resize', onWindowResize);
+
+            // Initialize the 3D scene
+            init3D();
+
+        }, function(error) {
+             const statusTextElement = document.getElementById('model-status-text');
+             if (statusTextElement) {
+                 statusTextElement.innerHTML = '<p>Error initializing 3D viewer.</p>';
+             }
+              document.getElementById('error-notice').textContent += ' (3D Init Error)';
+              document.getElementById('error-notice').style.display = 'block';
+        });
+
+        // Ad-block detection (non-blocking)
+        safeExecute(function() {
+            setTimeout(() => {
+                const adTest = document.createElement('div');
+                adTest.innerHTML = '&nbsp;';
+                adTest.className = 'adsbox ad-unit textads banner-ads ad-wrapper';
+                adTest.style.position = 'absolute';
+                adTest.style.left = '-9999px';
+                adTest.style.top = '-9999px';
+                adTest.style.height = '1px';
+                adTest.style.width = '1px';
+                document.body.appendChild(adTest);
+
+                setTimeout(() => {
+                    const adElement = document.querySelector('.' + adTest.className.split(' ')[0]);
+                    if (adElement) {
+                         const computedStyle = window.getComputedStyle(adElement);
+                         if (computedStyle.display === 'none' || computedStyle.height === '0px' || adElement.offsetHeight === 0) {
+                            const notice = document.getElementById('error-notice');
+                            if (!notice.textContent.includes('ad blocker')) {
+                                notice.textContent += ' (Tip: Disable ad blockers for the best experience)';
+                            }
+                            notice.style.display = 'block';
+                         }
+                         document.body.removeChild(adElement);
+                    }
+                }, 150);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
